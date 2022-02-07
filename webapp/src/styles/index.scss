@@ -1,0 +1,52 @@
+@import "src/styles/variables";
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 30;
+  padding: 5px;
+}
+
+html,
+body,
+#app {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+/* total width */
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 16px;
+}
+
+/* scrollbar itself */
+::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+  display: none;
+}

@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.container {
+  display: flex;
+  height: 100vh;
+  word-wrap: break-word;
+}
+
+.view {
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  margin-left: 1%;
+  overflow: auto;
+
+  a {
+    text-decoration: none;
+  }
+}
