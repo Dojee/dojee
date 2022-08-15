@@ -144,9 +144,9 @@ function TickerView({ match }) {
         </div>
       );
     }
-    
+
     if (!latestCandle) {
-      return <div>Unable to retrieve the company information.</div>      
+      return <div className={styles.candleInfo}>Unable to retrieve the company information.</div>      
     }
 
     return (
