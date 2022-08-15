@@ -15,7 +15,7 @@ export default function CandlestickChart({ chartData }) {
     const svgRect = svgElement.getBoundingClientRect();
     chart.current = new Chart({
       chartData,
-      height: svgRect.height / 1.5,
+      height: svgRect.height / 1.1,
       width: svgRect.width / 1.1,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
