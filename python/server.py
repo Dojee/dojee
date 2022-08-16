@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import cross_origin
+from patternService import PatternService
 from tickerService import TickerService
 import json
 
@@ -59,6 +60,27 @@ def get_chart_data():
 
   return jsonify(json_array)
 
+@app.route("/api/v1/patterns", methods=['GET'])
+@cross_origin()
+def get_patterns():
+  ticker = request.args.get('ticker')
+  period1 = request.args.get('period1')
+  period2 = request.args.get('period2')
+
+  file_name = 'Data/Tickers/' + ticker + '.csv'
+  pattern_service = PatternService(file_name)
+  pattern_array = pattern_service.get_patterns(ticker, period1, period2)
+  json_array = []
+
+  for i in range(1, len(pattern_array)):
+    json_array.append({
+      "date": pattern_array[i].date,
+      "is_bullish_engulfing": pattern_array[i].is_bullish_engulfing,
+      "is_doji": pattern_array[i].is_doji,
+      "is_three_line_strike": pattern_array[i].is_three_line_strike
+  })
+
+  return jsonify(json_array[::-1])
 
 if __name__ == '__main__':
     app.run(debug=True)

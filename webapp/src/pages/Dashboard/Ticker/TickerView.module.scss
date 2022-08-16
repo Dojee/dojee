@@ -1,5 +1,14 @@
+.refreshButton {
+  width: 150px;
+}
+
 .latestText {
   padding-left: 10px;
+}
+
+.sidebarHeader {
+  text-align: center;
+  padding-top: 10px;
 }
 
 .progress {
@@ -7,4 +16,35 @@
   justify-content: center;
   align-items: center;
   height: 40vh;
+}
+
+.patternTable {
+  padding-top: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+}
+
+.tickerContainer {
+  display: flex;
+  height: 100vh;
+  flex: 1;
+}
+
+.chartLayout {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 70%;
+}
+
+.patternsLayout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.candleInfo {
+  text-align: center;
+  padding-bottom: 10px;
 }
