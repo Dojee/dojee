@@ -19,7 +19,7 @@ const MONTHS = {
 export function formatDateToReadableString(value) {
   const date = new Date(value);
 
-  return `${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
 export async function fetchTickers() {
