@@ -46,6 +46,7 @@ export default function PatternTable({patternsData}) {
                     <TableHead>
                         <TableRow>
                             <TableCell>Date</TableCell>
+                            <TableCell>Price (USD)</TableCell>
                             <TableCell>
                                 <span className={styles.patternTableHeader}>
                                     <span className={styles.patternTableHeaderText}>Bullish Engulfing</span>
@@ -80,6 +81,7 @@ export default function PatternTable({patternsData}) {
                                     <TableCell component="th" scope="row">
                                         {formatDateToReadableString(pattern.date)}
                                     </TableCell>
+                                    <TableCell>{pattern.close}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_bullish_engulfing)}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_doji)}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_three_line_strike)}</TableCell>

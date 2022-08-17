@@ -75,6 +75,7 @@ def get_patterns():
   for i in range(1, len(pattern_array)):
     json_array.append({
       "date": pattern_array[i].date,
+      "close": pattern_array[i].close,
       "is_bullish_engulfing": pattern_array[i].is_bullish_engulfing,
       "is_doji": pattern_array[i].is_doji,
       "is_three_line_strike": pattern_array[i].is_three_line_strike

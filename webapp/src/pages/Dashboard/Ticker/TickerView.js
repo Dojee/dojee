@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
@@ -159,30 +159,31 @@ function TickerView({ match }) {
   }
 
   return (
-    <div className={styles.tickerContainer}>
-      <div className={styles.chartLayout}>
-        <h1>Ticker page for {ticker}</h1>
-        <span>
-          <Button className={styles.refreshButton} variant="outlined" onClick={refreshData}>
-            Refresh Data
-          </Button>
-          <span className={styles.latestText}>{statusText}</span>
-        </span>
-        <div>
+      <div className={styles.tickerContainer}>
+        <div className={styles.chartLayout}>
+          <h2 className={styles.tickerViewHeader}>Chart</h2>
           <div>{renderChart()}</div>
+          <Divider orientation="horizontal"/>
+          <h2 className={styles.tickerViewHeader}>Patterns</h2>
+          <div className={styles.patternTable}>{renderPatternTable()}</div>
+        </div>
+
+        <div className={styles.infoSidebar}>
+          <Divider orientation="vertical"/>
+          <div>
+            <h2 className={styles.tickerViewHeader}>{ticker}</h2>
+            {renderLatestCandleInfo()}
+            <Divider orientation="horizontal"/>
+            <div className={styles.refreshInfo}>
+              <div className={styles.statusText}>{statusText}</div>
+              <Button className={styles.refreshButton} variant="outlined" onClick={refreshData}>
+                Refresh Data
+              </Button>
+            </div>
+            <Divider className={styles.refreshDivider} orientation="horizontal"/>
+          </div>
         </div>
       </div>
-      <Divider orientation="vertical"/>
-      <div className={styles.patternsLayout}>
-        <div>
-          <h2 className={styles.sidebarHeader}>{ticker}</h2>
-          {renderLatestCandleInfo()}
-        </div>
-        <Divider orientation="horizontal"/>
-        <h2 className={styles.sidebarHeader}>Patterns</h2>
-        <div className={styles.patternTable}>{renderPatternTable()}</div>
-      </div>
-    </div>
   );
 }
 

@@ -8,6 +8,9 @@ export async function fetchPatterns(ticker, period1, period2) {
         }
 
         const patternsData = await (await axios.get(url)).data;
+        patternsData.forEach(pattern => {
+            pattern.close = parseFloat(pattern.close).toFixed(2);
+        })
         return patternsData;
     } catch (err) {
         throw err;

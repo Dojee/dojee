@@ -1,12 +1,13 @@
-.refreshButton {
-  width: 150px;
+.statusText {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.latestText {
-  padding-left: 10px;
+.refreshDivider {
+  padding-top: 10px;
 }
 
-.sidebarHeader {
+.tickerViewHeader {
   text-align: center;
   padding-top: 10px;
 }
@@ -15,7 +16,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  height: 10vh;
 }
 
 .patternTable {
@@ -26,25 +27,24 @@
 }
 
 .tickerContainer {
-  display: flex;
-  height: 100vh;
-  flex: 1;
+  display: flex
 }
 
 .chartLayout {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 70%;
-}
-
-.patternsLayout {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
+  flex-basis: 90%;
 }
 
 .candleInfo {
   text-align: center;
   padding-bottom: 10px;
+}
+
+.infoSidebar {
+  display: flex;
+}
+
+.refreshInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
