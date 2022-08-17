@@ -136,3 +136,8 @@ export function addTicker(newTicker) {
   localStorage.setItem("tickers", JSON.stringify(tickers));
   return true;
 }
+
+// TODO: Add remove functionality
+export function removeTicker(tickerSymbol) {
+  // const tickers = getTickersFromStorage();
+}

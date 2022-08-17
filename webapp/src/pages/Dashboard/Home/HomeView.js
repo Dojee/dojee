@@ -8,7 +8,10 @@ function HomeView() {
 
       <h3>TODO</h3>
       <ul>
-        <li>Refactor/Redo d3 chart</li>
+        <li>Remove ticker from nav</li>
+        <li>Add datetime support to allow user to pick time periods</li>
+        <li>Know when the market is closed for up-to-date functionality</li>
+        <li>Refactor/Redo d3 chart... Table is very wonky</li>
         <li>Add database support (SQL)</li>
       </ul>
     </div>

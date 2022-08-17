@@ -40,7 +40,7 @@ function Navbar({ path, navData, onCloseNav, onClickAddTickerModal }) {
   return (
     <div className={styles.sidebar}>
       <span>
-        <CloseIcon alt="Close" onClick={onCloseNav} fontSize="large" />
+        <CloseIcon className={styles.closeButton} alt="Close" onClick={onCloseNav} fontSize="large" />
       </span>
       <Divider />
       <nav

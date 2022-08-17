@@ -18,6 +18,7 @@ function TickerView({ match }) {
   const { ticker } = match.params;
   const [chartLoading, setChartLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
+  const [chartError, setChartError] = useState("");
   const [latestCandle, setLatestCandle] = useState(undefined);
 
   const [patternsLoading, setPatternsLoading] = useState(false);
@@ -26,57 +27,18 @@ function TickerView({ match }) {
 
   const [statusText, setStatusText] = useState("");
 
-  useEffect(() => {
-    // Fetch chart data
+  const fetchData = async (ticker, refresh = false, period1, period2) => {
     setChartLoading(true);
     setPatternsLoading(true);
-
-    fetchChartData(ticker)
-      .then((data) => {
-        const isLatest = isLatestChartData(data);
-        if (isLatest) {
-          setStatusText("Stock data is up-to-date.");
-        } else {
-          setStatusText("Stock data is not up-to-date");
-        }
-        setChartData(data);
-        setLatestCandle(data[data.length - 1])
-      })
-      .catch((err) => {
-        console.error(err);
-        setStatusText("There was an unexpected error fetching the stock data.");
-      })
-      .finally(() => {
-        setChartLoading(false);
-      });
-
-    // Fetch patterns data
-    fetchPatterns(ticker)
-      .then((data) => {
-        setPatternsData(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setPatternsError("There was an unexpected error fetching the patterns");
-      })
-      .finally(() => {
-        setPatternsLoading(false);
-      })
-  }, [ticker]);
-
-  async function refreshData() {
-    const todayDate = new Date();
-    const sixMonthsBack = new Date();
-    sixMonthsBack.setMonth(sixMonthsBack.getMonth() - 6);
-    const period2 = Math.floor(todayDate.getTime() / 1000);
-    const period1 = Math.floor(sixMonthsBack.getTime() / 1000);
-
-    // Refresh chart data
-    setChartLoading(true);
-    setPatternsLoading(true);
+    setChartError("");
     setPatternsError("");
+    setLatestCandle(undefined);
+    setChartData([]);
+    setPatternsData([]);
+
+    // Fetch chart data
     try {
-      const latestChartData = await fetchChartData(ticker, true, period1, period2);
+      const latestChartData = await fetchChartData(ticker, refresh, period1, period2);
       const isLatest = isLatestChartData(latestChartData);
       if (isLatest) {
         setStatusText("Stock data is up-to-date.");
@@ -87,12 +49,12 @@ function TickerView({ match }) {
       setLatestCandle(latestChartData[latestChartData.length - 1])
     } catch (err) {
       console.error(err);
-      setStatusText("There was an unexpected error fetching the stock data.");
+      setChartError("There was an unexpected error fetching the stock data.");
     } finally {
       setChartLoading(false);
     }
 
-    // Refresh patterns data
+    // Fetch patterns data
     try {
       const latestPatternsData = await fetchPatterns(ticker, period1, period2);
       setPatternsData(latestPatternsData);
@@ -104,7 +66,21 @@ function TickerView({ match }) {
     }
   }
 
-  function renderChart() {
+  const refreshData = () => {
+    const todayDate = new Date();
+    const sixMonthsBack = new Date();
+    sixMonthsBack.setMonth(sixMonthsBack.getMonth() - 6);
+    const period2 = Math.floor(todayDate.getTime() / 1000);
+    const period1 = Math.floor(sixMonthsBack.getTime() / 1000);
+
+    return fetchData(ticker, true, period1, period2);
+  }
+
+  useEffect(() => {
+    fetchData(ticker);
+  }, [ticker]);
+
+  const renderChart = () => {
     if (chartLoading) {
       return (
         <div className={styles.progress}>
@@ -113,12 +89,16 @@ function TickerView({ match }) {
       );
     } else if (!chartLoading && chartData && chartData.length) {
       return <CandlestickChart chartData={chartData} />;
+    } else if (chartError) {
+      return <div className={styles.tickerViewError}>
+        {chartError}
+      </div>
     } else {
-      return <div />;
+      return <Fragment />;
     }
   }
 
-  function renderPatternTable() {
+  const renderPatternTable = () => {
     if (patternsLoading) {
       return (
         <div className={styles.progress}>
@@ -128,15 +108,15 @@ function TickerView({ match }) {
     } else if (!patternsLoading && patternsData && patternsData.length) {
       return <PatternTable patternsData={patternsData}/>
     } else if (patternsError) {
-      return <div>
+      return <div className={styles.tickerViewError}>
         {patternsError}
       </div>
     } else {
-      return <div />;
+      return <Fragment />;
     }
   }
 
-  function renderLatestCandleInfo() {
+  const renderLatestCandleInfo = () => {
     if (chartLoading) {
       return (
         <div className={styles.progress}>

@@ -11,6 +11,10 @@
   }
 }
 
+.closeButton {
+  cursor: pointer;
+}
+
 .buttons {
   display: flex;
   flex-direction: column;

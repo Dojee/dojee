@@ -49,7 +49,7 @@ function Dashboard({ match }) {
         />
       )}
       {!showNavBar && (
-        <MenuIcon alt="menu" onClick={onCloseNav} fontSize="large" />
+        <MenuIcon className={styles.hamburgerButton} alt="menu" onClick={onCloseNav} fontSize="large" />
       )}
       {showNavBar && <Divider orientation="vertical" />}
       <div className={styles.view}>
