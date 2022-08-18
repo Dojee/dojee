@@ -15,7 +15,7 @@ import { zoom, zoomTransform } from "d3-zoom";
 import { ChartDatum } from ".";
 
 /**
- * Needs more refactoring still... class is too big
+ * Needs ALOT of refactoring ... class is too big
  */
 export class Chart {
   private readonly MARGIN = { top: 15, right: 65, bottom: 205, left: 50 };
@@ -89,6 +89,11 @@ export class Chart {
     this.drawStems();
     this.addZoom();
     this.addTooltip();
+  }
+
+  public cleanupChart() {
+    // selectAll('svg').remove();
+    this.svgContainer.remove();
   }
 
   private setupChart() {

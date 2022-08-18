@@ -4,13 +4,13 @@ import { Switch, Route } from "react-router-dom";
 import HomeView from "./Home/HomeView";
 import TickerView from "./Ticker/TickerView";
 
-function DashboardRouter() {
+function DashboardRouter({deleteTicker}) {
   const renderHome = useCallback((props) => {
     return <HomeView />;
   }, []);
 
   const renderTicker = useCallback((props) => {
-    return <TickerView {...props} />;
+    return <TickerView {...props} deleteTicker={deleteTicker}/>;
   }, []);
 
   return (

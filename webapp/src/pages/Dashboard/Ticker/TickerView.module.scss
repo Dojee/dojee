@@ -48,6 +48,16 @@
   display: flex;
 }
 
+.infoSidebarHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteIcon {
+  cursor: pointer;
+}
+
 .refreshInfo {
   display: flex;
   flex-direction: column;

@@ -141,7 +141,28 @@ export function addTicker(newTicker) {
   return true;
 }
 
-// TODO: Add remove functionality
 export function removeTicker(tickerSymbol) {
-  // const tickers = getTickersFromStorage();
+  const tickers = getTickersFromStorage();
+
+  let index;
+  for (let i = 0; i < tickers.length; i++) {
+    if (tickers[i].symbol === tickerSymbol) {
+      index = i;
+      break;
+    }
+  }
+
+  if (index === undefined) {
+    throw new Error('Unable to remove ticker');
+  }
+
+  tickers.splice(index, 1);
+
+  localStorage.setItem("tickers", JSON.stringify(tickers));
+}
+
+export function isStorage(tickerSymbol) {
+  const tickers = getTickersFromStorage();
+
+  return tickers.some((ticker) => ticker.symbol === tickerSymbol);
 }

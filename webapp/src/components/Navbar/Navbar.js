@@ -33,7 +33,7 @@ function Navbar({ path, navData, onCloseNav, onClickAddTickerModal }) {
     );
   });
 
-  function onClickMode() {
+  const onClickMode = () => {
     setMode();
   }
 

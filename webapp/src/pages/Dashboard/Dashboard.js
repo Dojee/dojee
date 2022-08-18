@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
+import { useHistory } from "react-router-dom";
 
 import DashboardRouter from "./DashboardRouter";
 import styles from "./Dashboard.module.scss";
 
 import AddTickerModal from "../../components/AddTickerModal/AddTickerModal";
 import Navbar from "../../components/Navbar/Navbar";
-import { fetchWatchedTickers } from "../../services/tickerService";
+import { fetchWatchedTickers, removeTicker } from "../../services/tickerService";
 
 function Dashboard({ match }) {
   const { url } = match;
   const [tickers, setTickers] = useState([]);
   const [showNavBar, setShowNavBar] = useState(true);
   const [showAddTickerModal, setShowAddTickerModal] = useState(false);
+  const history = useHistory();
 
   const fetchTickers = useCallback(() => {
     const tickers = fetchWatchedTickers();
@@ -28,9 +30,25 @@ function Dashboard({ match }) {
     setShowAddTickerModal(!showAddTickerModal);
   }, [showAddTickerModal]);
 
+  const deleteTicker = (tickerSymbol) => {
+    try {
+      removeTicker(tickerSymbol);
+      const tickers = fetchWatchedTickers();
+      for (const ticker of tickers) {
+        if (ticker.symbol !== tickerSymbol) {
+          history.push(ticker.path);
+          break;
+        }
+      }
+      setTickers(tickers);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
-    fetchTickers();
-  }, [fetchTickers]);
+    fetchTickers(); 
+  }, []);
 
   return (
     <main className={styles.container}>
@@ -53,7 +71,7 @@ function Dashboard({ match }) {
       )}
       {showNavBar && <Divider orientation="vertical" />}
       <div className={styles.view}>
-        <DashboardRouter />
+        <DashboardRouter deleteTicker={deleteTicker}/>
       </div>
     </main>
   );

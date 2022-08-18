@@ -2,20 +2,23 @@ import { Fragment, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import CandlestickChart from "../../../components/CandlestickChart/CandlestickChart";
 import {
   fetchChartData,
   formatDateToReadableString,
   isLatestChartData,
+  isStorage,
   numberWithCommas,
+  removeTicker,
 } from "../../../services/tickerService";
 
 import styles from "./TickerView.module.scss";
 import { fetchPatterns } from "../../../services/patternService";
 import PatternTable from "../../../components/PatternTable/PatternTable";
 
-function TickerView({ match }) {
+function TickerView({ match, deleteTicker }) {
   const { ticker } = match.params;
   const [chartLoading, setChartLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
@@ -33,6 +36,7 @@ function TickerView({ match }) {
     setPatternsLoading(true);
     setChartError("");
     setPatternsError("");
+    setStatusText("");
     setLatestCandle(undefined);
     setChartData([]);
     setPatternsData([]);
@@ -139,6 +143,8 @@ function TickerView({ match }) {
     )
   }
 
+  const deleteIcon = isStorage(ticker) ? <DeleteIcon className={styles.deleteIcon} onClick={() => deleteTicker(ticker)}/> : undefined;
+
   return (
       <div className={styles.tickerContainer}>
         <div className={styles.chartLayout}>
@@ -152,7 +158,7 @@ function TickerView({ match }) {
         <div className={styles.infoSidebar}>
           <Divider orientation="vertical"/>
           <div>
-            <h2 className={styles.tickerViewHeader}>{ticker}</h2>
+            <h2 className={styles.infoSidebarHeader}>{ticker} {deleteIcon} </h2>
             {renderLatestCandleInfo()}
             <Divider orientation="horizontal"/>
             <div className={styles.refreshInfo}>
