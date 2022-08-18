@@ -76,6 +76,7 @@ def get_patterns():
     json_array.append({
       "date": pattern_array[i].date,
       "close": pattern_array[i].close,
+      "volume": pattern_array[i].volume,
       "is_bullish_engulfing": pattern_array[i].is_bullish_engulfing,
       "is_doji": pattern_array[i].is_doji,
       "is_three_line_strike": pattern_array[i].is_three_line_strike

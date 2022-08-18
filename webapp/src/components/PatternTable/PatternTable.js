@@ -12,7 +12,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import styles from "./PatternTable.module.scss";
 import { Tooltip } from '@mui/material';
 
-import {formatDateToReadableString} from '../../services/tickerService'
+import {formatDateToReadableString, numberWithCommas} from '../../services/tickerService'
 
 const bullishEngulfingTooltip = "A bullish engulfing pattern is a candlestick pattern that forms when a small red candlestick is followed the next day by a large green candlestick, the body of which completely overlaps or engulfs the body of the previous day's candlestick.";
 const dojiTooltip = "A Doji is a candlestick pattern that looks like a cross as the opening and closing prices are equal or almost the same.";
@@ -47,6 +47,7 @@ export default function PatternTable({patternsData}) {
                         <TableRow>
                             <TableCell>Date</TableCell>
                             <TableCell>Price (USD)</TableCell>
+                            <TableCell>Volume</TableCell>
                             <TableCell>
                                 <span className={styles.patternTableHeader}>
                                     <span className={styles.patternTableHeaderText}>Bullish Engulfing</span>
@@ -82,6 +83,7 @@ export default function PatternTable({patternsData}) {
                                         {formatDateToReadableString(pattern.date)}
                                     </TableCell>
                                     <TableCell>{pattern.close}</TableCell>
+                                    <TableCell>{numberWithCommas(pattern.volume)}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_bullish_engulfing)}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_doji)}</TableCell>
                                     <TableCell>{getPatternValue(pattern.is_three_line_strike)}</TableCell>

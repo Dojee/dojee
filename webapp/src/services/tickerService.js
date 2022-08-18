@@ -22,6 +22,10 @@ export function formatDateToReadableString(value) {
   return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export async function fetchTickers() {
   try {
     return await (

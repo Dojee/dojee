@@ -8,6 +8,7 @@ import {
   fetchChartData,
   formatDateToReadableString,
   isLatestChartData,
+  numberWithCommas,
 } from "../../../services/tickerService";
 
 import styles from "./TickerView.module.scss";
@@ -133,7 +134,7 @@ function TickerView({ match }) {
       <div className={styles.candleInfo}>
         <div>Latest Trading Date: {formatDateToReadableString(latestCandle.date)}</div>
         <div>Price: {latestCandle.close.toFixed(2)} USD</div>
-        <div>Volume: {latestCandle.volume}</div>
+        <div>Volume: {numberWithCommas(latestCandle.volume)}</div>
       </div>
     )
   }

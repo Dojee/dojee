@@ -1,9 +1,10 @@
 from tickerService import TickerService
 
 class Pattern:
-    def __init__(self, date, close):
+    def __init__(self, date, close, volume):
         self.date = date
         self.close = close
+        self.volume = volume
         self.is_bullish_engulfing = False
         self.is_doji = False
         self.is_three_line_strike = False
@@ -72,7 +73,7 @@ class PatternService:
         pattern_array = []
         for i in range(1, len(chart_data)):
             pattern_found = False
-            pattern = Pattern(chart_data[i]['Date'], chart_data[i]['Close'])
+            pattern = Pattern(chart_data[i]['Date'], chart_data[i]['Close'], chart_data[i]['Volume'])
 
             if self.is_bullish_engulfing(chart_data, i):
                 pattern_found = True
