@@ -1,5 +1,5 @@
 import { select, Selection, pointer } from "d3-selection";
-import { timeFormat, timeParse } from "d3-time-format";
+import { timeParse } from "d3-time-format";
 import {
   scaleLinear,
   scaleQuantize,
@@ -13,26 +13,13 @@ import { min, max, range, bisector } from "d3-array";
 import { axisLeft, axisBottom, AxisDomain, Axis } from "d3-axis";
 import { zoom, zoomTransform } from "d3-zoom";
 import { ChartDatum } from ".";
+import { formatDateToReadableString } from "../../../services/tickerService";
 
 /**
  * Needs ALOT of refactoring ... class is too big
  */
 export class Chart {
   private readonly MARGIN = { top: 15, right: 65, bottom: 205, left: 50 };
-  private readonly MONTHS = {
-    0: "Jan",
-    1: "Feb",
-    2: "Mar",
-    3: "Apr",
-    4: "May",
-    5: "Jun",
-    6: "Jul",
-    7: "Aug",
-    8: "Sep",
-    9: "Oct",
-    10: "Nov",
-    11: "Dec",
-  };
   private d3ChartData: ChartDatum[];
   private _chartData: any[];
   private dates: Date[];
@@ -92,7 +79,6 @@ export class Chart {
   }
 
   public cleanupChart() {
-    // selectAll('svg').remove();
     this.svgContainer.remove();
   }
 
@@ -120,14 +106,10 @@ export class Chart {
       .append("rect")
       .attr("width", this.width)
       .attr("height", this.height);
-
     this.tooltip = select("body")
       .append("div")
-      .style("position", "absolute")
-      .style("width", "30%")
-      .style("z-index", 30)
-      .style("white-space", "pre-wrap")
-      .style("visibility", "hidden");
+      .attr("class", "tooltip")
+      .style("opacity", 0);
     this.chartBody = this.svgContainer
       .append("g")
       .attr("class", "chartBody")
@@ -230,11 +212,6 @@ export class Chart {
   }
 
   private addTooltip() {
-    const tooltip = select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
-
     const bisectDate = bisector((datum: ChartDatum) => {
       return datum.date;
     }).left;
@@ -245,7 +222,7 @@ export class Chart {
 
       const xCoordinate = pointer(event)[0];
 
-      const x0 = xScaleZ.invert(xCoordinate);
+      const x0 = Math.round(xScaleZ.invert(xCoordinate));
       const date = this.xDateScale(x0);
       const index = bisectDate(this.d3ChartData, date, 1);
 
@@ -256,13 +233,13 @@ export class Chart {
         datum1.date.valueOf() - date.valueOf()
           ? datum1
           : datum0;
-      let text = timeFormat("%a, %b %d, %Y")(datum.date);
+      let text = formatDateToReadableString(datum.date);
       text += "<br>Open: " + datum.open.toFixed(2);
       text += "<br>Close: " + datum.close.toFixed(2);
       text += "<br>High: " + datum.high.toFixed(2);
       text += "<br>Low: " + datum.low.toFixed(2);
-      tooltip
-        .style("left", event.pageX + 5 + "px")
+      this.tooltip
+        .style("left", event.pageX + 15 + "px")
         .style("top", event.pageY - 30 + "px")
         .html(text.trim());
     };
@@ -274,11 +251,11 @@ export class Chart {
       .attr("height", this.height)
       .style("fill", "none")
       .style("pointer-events", "all")
-      .on("mouseover", function () {
-        tooltip.style("opacity", 1);
+      .on("mouseover", () => {
+        this.tooltip.style("opacity", 1);
       })
-      .on("mouseout", function () {
-        tooltip.style("opacity", 0);
+      .on("mouseout", () => {
+        this.tooltip.style("opacity", 0);
       })
       .on("mousemove", mousemove);
   }
@@ -373,13 +350,8 @@ export class Chart {
     const value = domainValue.valueOf();
     if (value >= 0 && value <= this.dates.length - 1) {
       const date: Date = this.dates[value];
-      return (
-        this.MONTHS[date.getMonth()] +
-        " " +
-        date.getDate() +
-        " " +
-        date.getFullYear()
-      );
+
+      return formatDateToReadableString(date);
     }
 
     return "";
