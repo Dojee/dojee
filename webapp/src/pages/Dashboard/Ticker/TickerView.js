@@ -10,8 +10,7 @@ import {
   formatDateToReadableString,
   isLatestChartData,
   isStorage,
-  numberWithCommas,
-  removeTicker,
+  numberWithCommas
 } from "../../../services/tickerService";
 
 import styles from "./TickerView.module.scss";
